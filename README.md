@@ -31,3 +31,7 @@ $encoder->encode(['a' => new JsSymbol('js_var')]); // outputs {"a": js_var}
 ## Install
 
     composer require corneltek/pjson '*'
+
+## License
+
+This package is released under MIT License
