@@ -1,9 +1,10 @@
 <?php
 namespace PJSON;
 use DateTime;
+use Closure;
 
 /**
- * JsJsonEncoder implements a json encoder with PHP object to JavaScript object translation support.
+ * PJSONEncoder implements a json encoder with PHP object to JavaScript object translation support.
  *
  * DateTime is translated to Date.UTC(...) in javascript.
  */
@@ -14,6 +15,8 @@ class PJSONEncoder
     protected $objectEncoder;
 
     protected $datetimeEncoder;
+
+    protected $closureEncoder;
 
     public function __construct()
     {
@@ -33,6 +36,11 @@ class PJSONEncoder
     public function setObjectEncoder($encoder)
     {
         $this->objectEncoder = $encoder;
+    }
+
+    public function setClosureEncoder($encoder)
+    {
+        $this->closureEncoder = $encoder;
     }
 
     /**
@@ -71,6 +79,17 @@ class PJSONEncoder
                 }
                 return '{' . join(',', $result) . '}';
             }
+        } else if ($a instanceof Symbol) {
+
+            return $a->encode($this);
+
+        } else if ($a instanceof FunctionCall) {
+
+            return $a->encode($this);
+
+        } else if ($a instanceof Closure && $this->closureEncoder) {
+
+            return call_user_func($this->closureEncoder, $a, $this);
 
         } else if ($a instanceof DateTime && $this->datetimeEncoder) {
 

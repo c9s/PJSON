@@ -1,6 +1,7 @@
 <?php
 use PJSON\PJSONEncoder;
 use PJSON\DateTimeEncoder;
+use PJSON\Symbol;
 
 class PJSONEncoderTest extends PHPUnit_Framework_TestCase
 {
@@ -36,6 +37,11 @@ class PJSONEncoderTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($arr);
     }
 
+    public function testSymbolEncode()
+    {
+        $encoder = new PJSONEncoder;
+        $this->assertEquals('{"foo":javascript_symbol}', $encoder->encode([ 'foo' => new Symbol('javascript_symbol') ]));
+    }
 
     public function testDateTimeEncoder()
     {
