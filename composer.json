@@ -1,0 +1,12 @@
+{
+    "name": "corneltek/pjson",
+    "authors": [
+        { "name": "c9s", "email": "yoanlin93+composer@gmail.com" }
+    ],
+    "require": { },
+    "suggest": { },
+    "require-dev": { },
+    "autoload": { "psr-4": { "PJSON\\": "" } },
+    "extra": { "branch-alias": { "dev-master": "1.0.x-dev" } },
+    "license": "MIT"
+}
