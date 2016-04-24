@@ -1,7 +1,7 @@
 <?php
 namespace PJSON;
 
-class FunctionCall
+class JsFunctionCall
 {
     protected $name;
 

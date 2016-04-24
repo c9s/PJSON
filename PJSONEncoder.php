@@ -79,11 +79,11 @@ class PJSONEncoder
                 }
                 return '{' . join(',', $result) . '}';
             }
-        } else if ($a instanceof Symbol) {
+        } else if ($a instanceof JsSymbol) {
 
             return $a->encode($this);
 
-        } else if ($a instanceof FunctionCall) {
+        } else if ($a instanceof JsFunctionCall) {
 
             return $a->encode($this);
 

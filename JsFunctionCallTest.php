@@ -1,13 +1,13 @@
 <?php
-use PJSON\FunctionCall;
 use PJSON\PJSONEncoder;
+use PJSON\JsFunctionCall;
 
-class FunctionCallTest extends PHPUnit_Framework_TestCase
+class JsFunctionCallTest extends PHPUnit_Framework_TestCase
 {
     public function testFunctionCallEncode() {
 
         $encoder = new PJSONEncoder;
-        $call = new FunctionCall('jQuery', ['#documentId']);
+        $call = new JsFunctionCall('jQuery', ['#documentId']);
         $this->assertEquals('jQuery("#documentId")',$encoder->encode($call));
     }
 }

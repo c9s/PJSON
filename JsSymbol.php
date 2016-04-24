@@ -1,7 +1,7 @@
 <?php
 namespace PJSON;
 
-class Symbol
+class JsSymbol
 {
     protected $symbol;
 
