@@ -2,6 +2,7 @@
 namespace PJSON;
 use DateTime;
 use Closure;
+use Exception;
 
 /**
  * PJSONEncoder implements a json encoder with PHP object to JavaScript object translation support.
@@ -84,6 +85,10 @@ class PJSONEncoder
             return $a->encode($this);
 
         } else if ($a instanceof JsFunctionCall) {
+
+            return $a->encode($this);
+
+        } else if ($a instanceof JsNewObject) {
 
             return $a->encode($this);
 
