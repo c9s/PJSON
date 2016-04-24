@@ -20,18 +20,17 @@ class PJSONEncoder
 
     }
 
-
-    public function setDateTimeEncoder(callable $encoder)
+    public function setDateTimeEncoder($encoder)
     {
         $this->datetimeEncoder = $encoder;
     }
 
-    public function setStringEncoder(callable $encoder)
+    public function setStringEncoder($encoder)
     {
         $this->stringEncoder = $encoder;
     }
 
-    public function setObjectEncoder(callable $encoder)
+    public function setObjectEncoder($encoder)
     {
         $this->objectEncoder = $encoder;
     }
@@ -51,12 +50,14 @@ class PJSONEncoder
             return $a;
         } else if (is_string($a)) {
             if ($this->stringEncoder) {
-                return $this->stringEncoder($a, $this);
+                return call_user_func($this->stringEncoder, $a, $this);
             } else {
                 return '"' . addcslashes($a, "\\\/\n\t\r\f\"") . '"';
             }
         } else if (is_scalar($a)) {
+
             return $a;
+
         } else if (is_array($a)) {
 
             // If all indexes are numberic
@@ -73,11 +74,11 @@ class PJSONEncoder
 
         } else if ($a instanceof DateTime && $this->datetimeEncoder) {
 
-            return $this->datetimeEncoder($a, $this);
+            return call_user_func($this->datetimeEncoder,$a, $this);
 
         } else if (is_object($a)) {
             if ($this->objectEncoder) {
-                return $this->objectEncoder($a, $this);
+                return call_user_func($this->objectEncoder, $a, $this);
             } else if ($a instanceof DateTime) {
                 return sprintf('Date.UTC(%d,%d,%d)', $a->format('Y'), intval($a->format('m')) - 1, $a->format('j'));
             } else {

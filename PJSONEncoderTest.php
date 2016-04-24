@@ -1,5 +1,6 @@
 <?php
 use PJSON\PJSONEncoder;
+use PJSON\DateTimeEncoder;
 
 class PJSONEncoderTest extends PHPUnit_Framework_TestCase
 {
@@ -22,7 +23,6 @@ class PJSONEncoderTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-
     /**
      * @dataProvider inputDataProvider
      */
@@ -35,6 +35,15 @@ class PJSONEncoderTest extends PHPUnit_Framework_TestCase
         $arr = json_decode($output, true);
         $this->assertNotEmpty($arr);
     }
+
+
+    public function testDateTimeEncoder()
+    {
+        $encoder = new PJSONEncoder;
+        $encoder->setDateTimeEncoder(new DateTimeEncoder(DateTime::ATOM));
+        $this->assertEquals('{"created_at":2011-01-01T00:00:00+08:00}', $encoder->encode([ 'created_at' => new DateTime('2011-01-01') ]));
+    }
+
 
 
     public function testEncodeSimpleScalar() {
