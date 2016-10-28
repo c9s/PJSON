@@ -44,6 +44,15 @@ class PJSONEncoder
         $this->closureEncoder = $encoder;
     }
 
+    public function wrapDoubleQuote($s)
+    {
+        if (preg_match('/^".+"$/', $s)) {
+            return $s;
+        }
+
+        return '"' . addcslashes($s, "\\\/\n\t\r\f\"") . '"';
+    }
+
     /**
      * @param mixed $a
      */
@@ -61,7 +70,7 @@ class PJSONEncoder
             if ($this->stringEncoder) {
                 return call_user_func($this->stringEncoder, $a, $this);
             } else {
-                return '"' . addcslashes($a, "\\\/\n\t\r\f\"") . '"';
+                return $this->wrapDoubleQuote($a);
             }
         } else if (is_scalar($a)) {
 
@@ -70,13 +79,13 @@ class PJSONEncoder
         } else if (is_array($a)) {
 
             // If all indexes are numberic
-            $isList = count(array_filter(array_keys($a),"is_numeric")) === count(array_keys($a));
+            $isList = array_keys($a) === range(0, count($a) - 1);
             if ($isList) {
                 return '[' . join(',', array_map([$this, 'encode'], $a)) . ']';
             } else {
                 $result = array();
                 foreach ($a as $k => $v) {
-                    $result[] = $this->encode($k) . ':' . $this->encode($v);
+                    $result[] = $this->wrapDoubleQuote($this->encode($k)) . ':' . $this->encode($v);
                 }
                 return '{' . join(',', $result) . '}';
             }
