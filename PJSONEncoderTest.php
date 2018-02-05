@@ -10,6 +10,8 @@ class PJSONEncoderTest extends PHPUnit_Framework_TestCase
     {
         return [
             ['{"foo":1}',[ 'foo' => 1 ]],
+            ['{"1":"foo","2":"bar"}',[ 1 => 'foo', 2 => 'bar' ]],
+            ['["foo","bar"]',[ 0 => 'foo', 1 => 'bar' ]],
             ['{"foo":0.3}',[ 'foo' => 0.3 ]],
             ['{"foo":true}',[ 'foo' => true ]],
             ['{"foo":false}',[ 'foo' => false ]],
